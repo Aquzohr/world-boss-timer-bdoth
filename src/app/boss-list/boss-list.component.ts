@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database'; 
 import { Observable } from 'rxjs';
 import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
@@ -11,8 +11,6 @@ import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilit
 
 export class BossListComponent implements OnInit {
 
-  bossObservable: Observable<any[]>;
-
   constructor(private db: AngularFireDatabase) { }
 
   hour = new Date().getHours();
@@ -20,12 +18,20 @@ export class BossListComponent implements OnInit {
   sec = new Date().getSeconds();
 
   day = new Date().getDay();
-  nextDay = this.day+1;
+  nextDay = this.setNextday(this.day+1);
 
-  checkNextday(){
-    if(this.nextDay==7){
-      this.nextDay=0;
+  bossList = [];
+  isLoading = true;
+
+  Loading(){
+    this.isLoading = false;
+  }
+
+  setNextday(day){
+    if(day==7){
+      day=0
     }
+    return day;
   }
 
   leftTimeToday(boss_time){
@@ -38,7 +44,6 @@ export class BossListComponent implements OnInit {
   leftTimeNextday(boss_time){
     var time = boss_time*60*60 + (24*60*60);
     var current_time = (this.hour*60*60)+(this.min*60)+this.sec;
-
     return time - current_time;
   }
 
@@ -64,8 +69,13 @@ export class BossListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bossObservable = this.getBoss('/world_boss');
-    this.checkNextday();
+    this.getBoss('/world_boss').subscribe(
+      (response) => {
+        this.bossList = response
+        this.isLoading = response.some(x => x.time == 0) ? false : true;
+      }
+    );
+
   }
 
   getBoss(listPath): Observable<any[]> {

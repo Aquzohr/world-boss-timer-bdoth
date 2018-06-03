@@ -1,6 +1,6 @@
 <div>
-  
-  <div *ngFor="let boss of bossObservable | async">
+  <div *ngIf="isLoading">Loading...</div>
+  <div *ngFor="let boss of bossList">
     <div class="card" *ngIf="hour < boss.time && boss.day == day" style="margin-bottom: 15px">
       <div class="card-header">
         <h2>{{boss.name}} <span class="badge badge-secondary">{{boss.time}}:00</span></h2>
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <div *ngFor="let boss of bossObservable | async">
+  <div *ngFor="let boss of bossList">
     <div class="card" *ngIf="nextDay == boss.day"  style="margin-bottom: 15px">
         <div class="card-header">
           <h2>{{boss.name}} <span class="badge badge-secondary">{{boss.time}}:00</span></h2>
