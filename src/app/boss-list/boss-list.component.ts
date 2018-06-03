@@ -40,7 +40,7 @@ export class BossListComponent implements OnInit {
     //console.log("BossDay"+boss_day);
     //console.log("nextDay"+this.nextDay);
     
-    if(time==18 && boss_day == this.nextDay){
+    if(time>=18 && boss_day == this.nextDay){
       this.nextDay+=1;
     }
   }
