@@ -1,0 +1,25 @@
+{
+"world_boss": {
+  "boss01": { "day": 1, "time": 0, "name": "Kzarka" }, 
+  "boss02": { "day": 2, "time": 0, "name": "Kutum" }, 
+  "boss03": { "day": 3, "time": 0, "name": "Kzarka" }, 
+  "boss04": { "day": 4, "time": 0, "name": "Kutum" }, 
+  "boss05": { "day": 5, "time": 0, "name": "Kzarka" }, 
+  "boss06": { "day": 6, "time": 0, "name": "Kutum" }, 
+  "boss07": { "day": 0, "time": 0, "name": "Kzarka" },
+  "boss08": { "day": 1, "time": 2, "name": "Kzarka" }, 
+  "boss09": { "day": 2, "time": 2, "name": "Kutum" }, 
+  "boss10": { "day": 3, "time": 2, "name": "Kzarka" }, 
+  "boss11": { "day": 4, "time": 2, "name": "Kutum" }, 
+  "boss12": { "day": 5, "time": 2, "name": "Kzarka" }, 
+  "boss13": { "day": 6, "time": 2, "name": "Kutum" }, 
+  "boss14": { "day": 0, "time": 2, "name": "Kzarka" },
+  "boss15": { "day": 1, "time": 18, "name": "Kutum" }, 
+  "boss16": { "day": 2, "time": 18, "name": "Kzarka" }, 
+  "boss17": { "day": 3, "time": 18, "name": "Kutum" }, 
+  "boss18": { "day": 4, "time": 18, "name": "Kzarka" }, 
+  "boss19": { "day": 5, "time": 18, "name": "Kutum" }, 
+  "boss20": { "day": 6, "time": 18, "name": "Kzarka" }, 
+  "boss21": { "day": 0, "time": 18, "name": "Kutum" }
+}
+}
