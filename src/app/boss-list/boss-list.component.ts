@@ -15,44 +15,29 @@ export class BossListComponent implements OnInit {
 
   constructor(private db: AngularFireDatabase) { }
 
-  time = new Date().getHours();
+  hour = new Date().getHours();
   min = new Date().getMinutes();
   sec = new Date().getSeconds();
 
   day = new Date().getDay();
-  nextDay = this.day;
+  nextDay = this.day+1;
 
-  dayClass = "";
-  nextDayClass = "";
-
-  addClassActive(){
-    if(this.time < 18){
-      this.dayClass = "active";
-    }else{
-      this.nextDayClass = "active";
-    }
-
-    //console.log(this.dayClass);
-  }
-
-  SetnextDay(time,boss_day){
-
-    //console.log("BossDay"+boss_day);
-    //console.log("nextDay"+this.nextDay);
-    
-    if(time>=18 && boss_day == this.nextDay){
-      this.nextDay+=1;
+  checkNextday(){
+    if(this.nextDay==7){
+      this.nextDay=0;
     }
   }
 
-  leftTimeCal(boss_time,day,nextDay){
+  leftTimeToday(boss_time){
     var time = boss_time*60*60;
-    var current_time = (this.time*60*60)+(this.min*60)+this.sec;
+    var current_time = (this.hour*60*60)+(this.min*60)+this.sec;
 
-    if(day != nextDay){
-      time += 24*60*60;
-    }
-    var total = time - current_time;
+    return time - current_time;
+  }
+
+  leftTimeNextday(boss_time){
+    var time = boss_time*60*60 + (24*60*60);
+    var current_time = (this.hour*60*60)+(this.min*60)+this.sec;
 
     return time - current_time;
   }
@@ -80,6 +65,7 @@ export class BossListComponent implements OnInit {
 
   ngOnInit() {
     this.bossObservable = this.getBoss('/world_boss');
+    this.checkNextday();
   }
 
   getBoss(listPath): Observable<any[]> {

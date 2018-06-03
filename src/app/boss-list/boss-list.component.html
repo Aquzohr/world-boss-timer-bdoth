@@ -1,18 +1,17 @@
 <div>
   
   <div *ngFor="let boss of bossObservable | async">
-    <div class="card" *ngIf="time < boss.time && boss.day == day" style="margin-bottom: 15px">
+    <div class="card" *ngIf="hour < boss.time && boss.day == day" style="margin-bottom: 15px">
       <div class="card-header">
         <h2>{{boss.name}} <span class="badge badge-secondary">{{boss.time}}:00</span></h2>
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
-            <countdown [config]="{leftTime: leftTimeCal(boss.time,day,day)}">
+            <countdown [config]="{leftTime: leftTimeToday(boss.time)}">
               <h3 style="color: darkgray;">$!d!day $!h!hr $!m!min $!s!s</h3>
             </countdown>
         </blockquote>
       </div>
-      {{SetnextDay(boss.time,boss.day)}}
     </div>
   </div>
 
@@ -23,7 +22,7 @@
         </div>
         <div class="card-body">
           <blockquote class="blockquote mb-0">
-              <countdown [config]="{leftTime: leftTimeCal(boss.time,day,nextDay)}">
+              <countdown [config]="{leftTime: leftTimeNextday(boss.time)}">
                 <h3 style="color: darkgray;">$!d!day $!h!hr $!m!min $!s!s</h3>
               </countdown>
           </blockquote>
