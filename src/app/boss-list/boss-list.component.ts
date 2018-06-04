@@ -23,8 +23,38 @@ export class BossListComponent implements OnInit {
   bossList = [];
   isLoading = true;
 
-  Loading(){
-    this.isLoading = false;
+  todaySpawn(boss){
+    var index=0;
+    if(this.hour < 2){
+      index = 2;
+    }
+
+    if(this.hour >= 18 || (this.hour < 18 && this.hour >= 2)){
+      return false;
+    }
+
+    return this.bossList.filter(i => i.day === boss.day).map(i => i.time).indexOf(boss.time) == index;
+  }
+  
+  nextSpawn(boss) {
+    var index=0;
+    if(this.hour >= 0 && this.hour < 18){
+      index = 0;
+    }else if(this.hour >= 0 && this.hour < 2){
+      index = 1;
+    }else if(this.hour >= 2){
+      index = 2;
+    }
+
+    if(this.hour >= 18){
+      index = 1;
+    }
+
+    if(this.hour >= 0 && this.hour < 2){
+      return false;
+    }
+
+    return this.bossList.filter(i => i.day === boss.day).map(i => i.time).indexOf(boss.time) == index;
   }
 
   setNextday(day){
