@@ -13,98 +13,71 @@ export class BossListComponent implements OnInit {
 
   constructor(private db: AngularFireDatabase) { }
 
-  hour = new Date().getHours();
-  min = new Date().getMinutes();
-  sec = new Date().getSeconds();
-
-  day = new Date().getDay();
-  nextDay = this.setNextday(this.day+1);
-
-  bossList = [];
+  listBoss = [];
   isLoading = true;
 
-  todaySpawn(boss){
-    var index=0;
-    if(this.hour < 2){
-      index = 2;
-    }
+  bossTimer(bosstime,bossday){
 
-    if(this.hour >= 18 || (this.hour < 18 && this.hour >= 2)){
-      return false;
+    //for boss
+    var curr_day=new Date().getDay();
+    var boss_time = bosstime*60*60;
+    if(bossday > curr_day){
+      boss_time += (bossday-curr_day)*24*60*60;
     }
-
-    return this.bossList.filter(i => i.day === boss.day).map(i => i.time).indexOf(boss.time) == index;
-  }
   
-  nextSpawn(boss) {
-    var index=0;
-    if(this.hour >= 0 && this.hour < 18){
-      index = 0;
-    }else if(this.hour >= 0 && this.hour < 2){
-      index = 1;
-    }else if(this.hour >= 2){
-      index = 2;
-    }
-
-    if(this.hour >= 18){
-      index = 1;
-    }
-
-    if(this.hour >= 0 && this.hour < 2){
-      return false;
-    }
-
-    return this.bossList.filter(i => i.day === boss.day).map(i => i.time).indexOf(boss.time) == index;
+    //curent
+    var hour=new Date().getHours();
+    var min= new Date().getMinutes();
+    var sec= new Date().getSeconds();
+  
+    var current_time = (hour*60*60) + (min*60) + sec;
+  
+    return boss_time-current_time;
   }
 
-  setNextday(day){
-    if(day==7){
-      day=0
+  findBossNextSpawn(data){
+    var curr_day=new Date().getDay();
+    var hour=new Date().getHours();
+
+  
+    for(var i=0;i<5;i++){
+      for (var key in data) {
+        //console.log(key);
+        if(data[key].day==curr_day+i){
+          //console.log(i + ": " + data[key].name + ' |DAY: ' + data[key].day+ ' |TIME: ' + data[key].time);
+          if(i==0 && hour < data[key].time){
+            this.listBoss.push({
+              name: data[key].name,
+              time: data[key].time,
+              day: data[key].day
+            });
+          }
+          
+          if(i!=0){
+            this.listBoss.push({
+              name: data[key].name,
+              time: data[key].time,
+              day: data[key].day
+            });
+          }
+        }
+  
+        if(this.listBoss.length == 5){
+          break;
+        }
+      }
     }
-    return day;
-  }
-
-  leftTimeToday(boss_time){
-    var time = boss_time*60*60;
-    var current_time = (this.hour*60*60)+(this.min*60)+this.sec;
-
-    return time - current_time;
-  }
-
-  leftTimeNextday(boss_time){
-    var time = boss_time*60*60 + (24*60*60);
-    var current_time = (this.hour*60*60)+(this.min*60)+this.sec;
-    return time - current_time;
-  }
-
-  createJSON(){
-    let k=0;
-    let boss=["Kzarka", "Kutum"];
-
-    var metadata = [];
-
-    for(let i=1; i<8; i++){
-
-      metadata.push(
-        {
-            "day": i,
-            "time": "18:00",
-            "name": boss[(i)%2]
-        },
-      );
-    }
-
-    return metadata;
-
-  }
+  
+  };
 
   ngOnInit() {
     this.getBoss('/world_boss').subscribe(
       (response) => {
-        this.bossList = response
+        this.findBossNextSpawn(response);
         this.isLoading = response.some(x => x.time == 0) ? false : true;
       }
     );
+
 
   }
 

@@ -1,55 +1,21 @@
 <div>
+  
   <div *ngIf="isLoading">Loading...</div>
+  <div *ngFor="let boss of listBoss; let isFirst = first">
 
-  <div *ngIf="!isLoading">
-    <div class="alert alert-warning" role="alert">
-        <h5 class="display-5">Coming soon</h5>
-    </div>
-  </div>
-  <div *ngFor="let boss of bossList">
-
-    <div *ngIf="todaySpawn(boss) && day == boss.day">
-      <br>
-      <div class="alert alert-info" role="alert">
-          <h5 class="display-5">Next Spawn</h5>
-      </div>
-    </div>
-
-    <div class="card" *ngIf="hour < boss.time && day == boss.day" style="margin-bottom: 15px">
+    <div class="card" style="margin-bottom: 15px" [class.border-dark]="isFirst">
       <div class="card-header">
         <h2>{{boss.name}} <span class="badge badge-secondary">{{boss.time}}:00</span></h2>
       </div>
       <div class="card-body">
         <blockquote class="blockquote mb-0">
-            <countdown [config]="{leftTime: leftTimeToday(boss.time)}">
+            <countdown [config]="{leftTime: bossTimer(boss.time,boss.day)}">
               <h3 style="color: darkgray;" class="">$!d!day $!h!hr $!m!min $!s!s</h3>
             </countdown>
         </blockquote>
       </div>
     </div>
-  </div>
 
-  <div *ngFor="let boss of bossList">
-
-    <div *ngIf="nextSpawn(boss) && nextDay == boss.day">
-      <br>
-      <div class="alert alert-info" role="alert">
-          <h5 class="display-5">Next Spawn</h5>
-      </div>
-    </div>
-
-    <div class="card" *ngIf="nextDay == boss.day"  style="margin-bottom: 15px">
-        <div class="card-header">
-          <h2>{{boss.name}} <span class="badge badge-secondary">{{boss.time}}:00</span></h2>
-        </div>
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-              <countdown [config]="{leftTime: leftTimeNextday(boss.time)}">
-                <h3 style="color: darkgray;">$!d!day $!h!hr $!m!min $!s!s</h3>
-              </countdown>
-          </blockquote>
-        </div>
-      </div>
   </div>
 
 </div>
