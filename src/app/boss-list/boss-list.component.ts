@@ -42,8 +42,8 @@ export class BossListComponent implements OnInit {
     var boss_time = bosstime*60*60;
 
     //midnight 0:00
-    if(boss_time == 0 ){
-      boss_time = 24*60*60;
+    if(bossday==0){
+      bossday = 7;
     }
 
     if(bossday > curr_day){
