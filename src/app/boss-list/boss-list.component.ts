@@ -40,6 +40,12 @@ export class BossListComponent implements OnInit {
     //for boss
     var curr_day=new Date().getDay();
     var boss_time = bosstime*60*60;
+
+    //midnight 0:00
+    if(boss_time == 0 ){
+      boss_time = 24*60*60;
+    }
+
     if(bossday > curr_day){
       boss_time += (bossday-curr_day)*24*60*60;
     }
@@ -54,6 +60,13 @@ export class BossListComponent implements OnInit {
     return boss_time-current_time;
   }
 
+  conditionDay(day){
+    if(day==7){
+      return 0;
+    }
+    return day;
+  }
+
   findBossNextSpawn(data){
     var curr_day=new Date().getDay();
     var hour=new Date().getHours();
@@ -62,7 +75,7 @@ export class BossListComponent implements OnInit {
     for(var i=0;i<5;i++){
       for (var key in data) {
         //console.log(key);
-        if(data[key].day==curr_day+i){
+        if(data[key].day==this.conditionDay(curr_day+i)){
           //console.log(i + ": " + data[key].name + ' |DAY: ' + data[key].day+ ' |TIME: ' + data[key].time);
           if(i==0 && hour < data[key].time){
             this.listBoss.push({
