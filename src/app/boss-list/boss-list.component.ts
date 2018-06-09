@@ -98,7 +98,7 @@ export class BossListComponent implements OnInit {
         }
       }
       i++;
-    }while(true);
+    }while(this.listBoss.length < 5);
   
   };
 
