@@ -71,12 +71,15 @@ export class BossListComponent implements OnInit {
     var curr_day=new Date().getDay();
     var hour=new Date().getHours();
 
-  
-    for(var i=0;i<5;i++){
+    var i = 0;
+    do{
       for (var key in data) {
-        //console.log(key);
         if(data[key].day==this.conditionDay(curr_day+i)){
           //console.log(i + ": " + data[key].name + ' |DAY: ' + data[key].day+ ' |TIME: ' + data[key].time);
+          if(this.listBoss.length == 5){
+            break;
+          }
+
           if(i==0 && hour < data[key].time){
             this.listBoss.push({
               name: data[key].name,
@@ -93,12 +96,9 @@ export class BossListComponent implements OnInit {
             });
           }
         }
-        //console.log('BOSS: '+this.listBoss.length);
-        if(this.listBoss.length >= 5){
-          break;
-        }
       }
-    }
+      i++;
+    }while(true);
   
   };
 
