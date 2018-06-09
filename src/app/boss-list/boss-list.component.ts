@@ -42,7 +42,7 @@ export class BossListComponent implements OnInit {
     var boss_time = bosstime*60*60;
 
     //midnight 0:00
-    if(bossday==0){
+    if(bossday==0 && curr_day != 0){
       bossday = 7;
     }
 
@@ -93,8 +93,8 @@ export class BossListComponent implements OnInit {
             });
           }
         }
-  
-        if(this.listBoss.length == 5){
+        //console.log('BOSS: '+this.listBoss.length);
+        if(this.listBoss.length >= 5){
           break;
         }
       }
