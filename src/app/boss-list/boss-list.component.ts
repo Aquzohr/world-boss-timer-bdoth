@@ -49,6 +49,11 @@ export class BossListComponent implements OnInit {
     if(bossday > curr_day){
       boss_time += (bossday-curr_day)*24*60*60;
     }
+
+    //fixed show time saturday to monday
+    if(curr_day==6 && bossday==1){
+      boss_time += 2*24*60*60;      
+    }
   
     //curent
     var hour=new Date().getHours();
@@ -61,8 +66,8 @@ export class BossListComponent implements OnInit {
   }
 
   conditionDay(day){
-    if(day==7){
-      return 0;
+    if(day>=7){
+      return day-7;
     }
     return day;
   }
@@ -70,12 +75,13 @@ export class BossListComponent implements OnInit {
   findBossNextSpawn(data){
     var curr_day=new Date().getDay();
     var hour=new Date().getHours();
-
-    var i = 0;
-    do{
-      for (var key in data) {
+    
+    for(var i=0;i<5; i++){
+      for (var key in data) {        
         if(data[key].day==this.conditionDay(curr_day+i)){
+
           //console.log(i + ": " + data[key].name + ' |DAY: ' + data[key].day+ ' |TIME: ' + data[key].time);
+
           if(this.listBoss.length == 5){
             break;
           }
@@ -95,10 +101,10 @@ export class BossListComponent implements OnInit {
               day: data[key].day
             });
           }
+
         }
       }
-      i++;
-    }while(this.listBoss.length < 5);
+    }
   
   };
 
