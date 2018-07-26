@@ -35,11 +35,29 @@ export class BossListComponent implements OnInit {
     }
   }
 
+  showBosstimer(time){
+
+    var time_str = time.toString();
+    var res = time_str.split(".");
+
+    if(res[1]){
+      return res[0] + ":" + res[1];
+    }
+
+    return res[0] + ":00";
+  }
+
   bossTimer(bosstime,bossday){
 
     //for boss
     var curr_day=new Date().getDay();
-    var boss_time = bosstime*60*60;
+    var boss_time = 0;
+
+    if(boss_time == 0.15){
+      boss_time = 15*60;
+    }else{
+      boss_time = bosstime*60*60;
+    }
 
     //midnight 0:00
     if(bossday==0 && curr_day != 0){
@@ -112,7 +130,7 @@ export class BossListComponent implements OnInit {
     this.getBoss('/world_boss').subscribe(
       (response) => {
         this.findBossNextSpawn(response);
-        this.isLoading = response.some(x => x.time == 0) ? false : true;
+        this.isLoading = response.some(x => x.time == 18) ? false : true;
       }
     );
 
