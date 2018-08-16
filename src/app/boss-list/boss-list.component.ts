@@ -130,7 +130,7 @@ export class BossListComponent implements OnInit {
     this.getBoss('/world_boss').subscribe(
       (response) => {
         this.findBossNextSpawn(response);
-        this.isLoading = response.some(x => x.time == 18) ? false : true;
+        this.isLoading = response.some(x => x.time == 14) ? false : true;
       }
     );
 
