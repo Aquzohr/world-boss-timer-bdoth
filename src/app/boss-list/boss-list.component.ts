@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database'; 
 import { Observable } from 'rxjs';
 import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
+import { PushNotificationsService } from './push-notification.service';
 
 @Component({
   selector: 'boss-list',
@@ -11,7 +12,9 @@ import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilit
 
 export class BossListComponent implements OnInit {
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase,private _notificationService: PushNotificationsService) { 
+    this._notificationService.requestPermission();
+  }
 
   listBoss = [];
   isLoading = true;
@@ -135,11 +138,34 @@ export class BossListComponent implements OnInit {
       }
     );
 
+    setInterval(() => {
+      this.notify();
+    }, 1000);
 
   }
 
   getBoss(listPath): Observable<any[]> {
     return this.db.list(listPath).valueChanges();
+  }
+
+  notify() {
+
+      if((typeof this.listBoss[0] == 'undefined'))
+        return;
+
+      let data: Array < any >= [];
+      //console.log(this.bossTimer(this.listBoss[0].time,this.listBoss[0].day) + "==900");
+
+      if(this.bossTimer(this.listBoss[0].time,this.listBoss[0].day)==900){
+        //console.log("PUSH!!");
+        data.push({
+          'title': 'Aquzohr',
+          'alertContent': this.listBoss[0].name + " จะเกิดในอีก 15 นาทีนี้..."
+        });
+
+        this._notificationService.generateNotification(data);
+
+      }
   }
 
 }
