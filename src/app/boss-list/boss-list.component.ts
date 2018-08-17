@@ -41,7 +41,8 @@ export class BossListComponent implements OnInit {
     var res = time_str.split(".");
 
     if(res[1]){
-      return res[0] + ":" + res[1];
+      var min = res[1].length == 2 ? res[1] : res[1]+'0'; 
+      return res[0] + ":" + min;
     }
 
     return res[0] + ":00";
